@@ -32,9 +32,12 @@ namespace Blog.Controllers
             return View();
         }
 
-        public IActionResult Register()
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register(string returnUrl = null)
         {
-            return View(new RegisterViewModel());
+            //return View(new RegisterViewModel());
+            return View();
         }
 
         [HttpPost]
