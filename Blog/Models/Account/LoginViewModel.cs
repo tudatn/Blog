@@ -15,6 +15,6 @@ namespace Blog.Models.Account
         public string Password { get; set; }
 
         [Display(Name = "Remember me?")]
-        public string RememberMe { get; set; }
+        public bool RememberMe { get; set; }
     }
 }
