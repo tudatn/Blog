@@ -23,9 +23,13 @@ namespace Blog.Controllers
             _signInManager = signInManager;
         }
 
-        public IActionResult Login()
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Login(string returnUrl = null)
         {
-            return View(new LoginViewModel());
+            ViewData["ReturnUrl"] = returnUrl;
+            //return View(new LoginViewModel());
+            return View();
         }
 
         public IActionResult Register()
@@ -38,13 +42,14 @@ namespace Blog.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (!ModelState.IsValid)
                 return View();
 
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
             if (!result.Succeeded)
             {
-                ModelState.AddModelError("", "Login Error");
+                ModelState.AddModelError("", "Username/password are not correct.");
                 return View();
             }
 
