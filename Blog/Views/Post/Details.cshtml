@@ -8,10 +8,32 @@
 <span>@Model.Author | @Model.Posted</span>
 <hr />
 
-<div class="body-content" >
-    @{ WriteLiteral(@Model.Body); }
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<article class="blog-post">
+    <div class="body-content">
+        @{ WriteLiteral(@Model.Body); }
+    </div>
+    <div>
+
+        <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
+    <a href="#" class="show-comments">Show Comments</a>
+    <div class="comments-container hide" data-post-id="@Model.ID">
+        <h3>Comments</h3>
+        <div class="comments">
+        </div>
+        <hr />
+        <div>
+            <a href="#" class="add-comment">Add a comment</a>
+            <div class="new-comment hide">
+                <form role="form">
+                    <div class="form-group">
+                        <textarea name="Body" class="new-comment form-control" placeholder="Enter comment here..."></textarea>
+                        <button type="submit" class="btn btn-default">Create Comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</article>
+

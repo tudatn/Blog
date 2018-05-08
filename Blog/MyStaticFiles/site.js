@@ -1,19 +1,18 @@
-﻿//$(function () {
+﻿$(function () {
 
-//    $('#mainContent').on('click', '.pager a', function () {
-//        var url = $(this).attr('href');
+    $('#mainContent').on('click', '.pager a', function () {
+        var url = $(this).attr('href');
 
-//        $('#mainContent').load(url);
+        $('#mainContent').load(url);
 
-//        return false;
-//    })
+        return false;
+    });
 
-//})
-
+});
 
 $(function initializeCommentComponents() {
 
-    $(document).on('click', '.show-comments', function (evt) {
+    $(window).on('load', function (evt) {
         evt.stopPropagation();
         new Post(this).showComments();
         return false;
@@ -43,7 +42,7 @@ function Post(el) {
         commentsContainer = postEl.find('.comments-container'),
         postID = commentsContainer.data('post-id'),
         commentsEl = postEl.find('.comments'),
-        showCommentsButton = postEl.find('.show-comments'),
+        //showCommentsButton = postEl.find('.show-comments'),
         noCommentsEl = postEl.find('.no-comments');
 
 
@@ -51,8 +50,8 @@ function Post(el) {
     /*********  Web API Methods ***********/
 
 
-    // RESTful Web API URL:  /api/posts/{postKey}/comments
-    var webApiUrl = ['/api/posts', postID, 'comments'].join('/');
+    // RESTful Web API URL:  /api/posts/{postID}/comments
+    var webApiUrl = ['/api/posts/', postID, 'comments'].join('/');
 
     function addComment() {
 
@@ -61,10 +60,9 @@ function Post(el) {
         $.ajax({
             url: webApiUrl,
             type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(comment)
+            data: JSON.stringify(comment),
+            contentType: 'application/json'
         }).then(renderComments);
-
     }
 
     function showComments() {
@@ -73,7 +71,6 @@ function Post(el) {
             type: 'GET',
             contentType: 'application/json'
         }).then(renderComments);
-
     }
 
 
@@ -81,8 +78,8 @@ function Post(el) {
 
 
     function showAddComment() {
-        addCommentEl.addClass('hide');
-        newCommentEl.removeClass('hide');
+        //addCommentEl.addClass('hide');
+        //newCommentEl.removeClass('hide');
         commentEl.focus();
     }
 
@@ -106,9 +103,9 @@ function Post(el) {
         return comments.reduce(function (commentEls, comment) {
             var el =
                 $('<div class="comment">')
-                    .append($('<p class="details" style="background-color:#e5e8e8;">').append(comment.author || 'Anon').append(' at ' + new Date(comment.posted).toLocaleString()))
+                    .append($('<p class="details">').append(comment.author || 'Anon').append(' at ' + new Date(comment.posted).toLocaleString()))
                     .append($('<p class="body">').append(comment.body))
-                    .append($('<hr />'));
+                    .append($('<hr >'));
 
             return commentEls.concat(el);
         }, []);
@@ -117,15 +114,15 @@ function Post(el) {
     function renderComments(comments) {
         var commentEls = createCommentElements(comments);
         commentsEl.append(commentEls);
-        commentsContainer.removeClass('hide');
-        showCommentsButton.remove();
+        //commentsContainer.removeClass('hide');
+        //showCommentsButton.remove();
         noCommentsEl.remove();
         resetAddComment();
     }
 
     function resetAddComment() {
-        addCommentEl.removeClass('hide');
-        newCommentEl.addClass('hide');
+        //addCommentEl.removeClass('hide');
+        //newCommentEl.addClass('hide');
         commentEl.val('');
     }
 }
